@@ -1,0 +1,168 @@
+create database bdverdemais;
+
+use bdverdemais;
+
+CREATE TABLE tbCliente (
+    Pk_id_cliente Int PRIMARY KEY,
+    Nome_Client varchar (40),
+    email_Client varchar (40),
+    historico_Client varchar (40),
+    data_Client Date,
+    telefone_Client varchar (40),
+    endereco_Client varchar (40)
+);
+
+CREATE TABLE tbProduto (
+    PK_id_produto Int PRIMARY KEY,
+    Nome_Prod varchar (40),
+    Data_de_val_Prod Date,
+    Preco_de_Compra_Prod Float,
+    Quantidade_Prod Int
+);
+
+CREATE TABLE tbFornecedor (
+    _Pk_id_fornecedor Int PRIMARY KEY,
+    Nome_Forn varchar (40),
+    telefone_Forn varchar (40),
+    email_Forn varchar (40),
+    endereco_Forn varchar (40),
+    Cnpj_cpf_Forn varchar (40),
+    categoria_Forn varchar (40)
+);
+
+CREATE TABLE tbEstoque (
+    PK_id_produto Int PRIMARY KEY,
+    Nome_produto_Estoq varchar (40),
+    quantidade_Estoq Int,
+    localizacao_Estoq varchar (40),
+    data_Estoq Date
+);
+
+CREATE TABLE tbFuncionario (
+    Pk_CPF int PRIMARY KEY,
+    Nome_Func varchar (40),
+    cargo_Func varchar (40),
+    data_nasc_Func date,
+    email_Func varchar (40),
+    telefone_Func varchar (40),
+    contratacao_Func Date,
+    endereco_Func varchar (40)
+);
+
+CREATE TABLE tbGerente_de_Unidade (
+    Pk_id_gerente Int PRIMARY KEY,
+    Nome_Ger varchar (40),
+    telefone_Ger varchar (40),
+    email_Ger varchar (40),
+    Setor_Ger varchar (40)
+);
+
+CREATE TABLE tbCompra (
+    fk_Cliente_Pk_id_cliente Int,
+    fk_Produto_PK_id_produto Int
+);
+
+CREATE TABLE tbFornece (
+    fk_Produto_PK_id_produto Int,
+    fk_Fornecedor__Pk_id_fornecedor Int
+);
+
+CREATE TABLE tbEstoca (
+    fk_Produto_PK_id_produto Int,
+    fk_Estoque_PK_id_produto Int
+);
+
+CREATE TABLE tbGerencia (
+    fk_Estoque_PK_id_produto Int,
+    fk_Funcionario_Pk_id_funcionario int
+);
+
+CREATE TABLE tbContrata (
+    fk_Fornecedor__Pk_id_fornecedor Int,
+    fk_Gerente_de_Unidade_Pk_id_gerente Int
+);
+
+CREATE TABLE tbCoordena (
+    fk_Gerente_de_Unidade_Pk_id_gerente Int,
+    fk_Funcionario_Pk_id_funcionario int
+);
+
+CREATE TABLE tbSupervisiona (
+    fk_Estoque_PK_id_produto Int,
+    fk_Gerente_de_Unidade_Pk_id_gerente Int
+);
+ 
+ALTER TABLE tbCompra ADD CONSTRAINT FK_tbCompra_1
+    FOREIGN KEY (fk_Cliente_Pk_id_cliente)
+    REFERENCES tbCliente (Pk_id_cliente)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbCompra ADD CONSTRAINT FK_tbCompra_2
+    FOREIGN KEY (fk_Produto_PK_id_produto)
+    REFERENCES tbProduto (PK_id_produto)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbFornece ADD CONSTRAINT FK_tbFornece_1
+    FOREIGN KEY (fk_Produto_PK_id_produto)
+    REFERENCES tbProduto (PK_id_produto)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbFornece ADD CONSTRAINT FK_tbFornece_2
+    FOREIGN KEY (fk_Fornecedor__Pk_id_fornecedor)
+    REFERENCES tbFornecedor (_Pk_id_fornecedor)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbEstoca ADD CONSTRAINT FK_tbEstoca_1
+    FOREIGN KEY (fk_Produto_PK_id_produto)
+    REFERENCES tbProduto (PK_id_produto)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbEstoca ADD CONSTRAINT FK_tbEstoca_2
+    FOREIGN KEY (fk_Estoque_PK_id_produto)
+    REFERENCES tbEstoque (PK_id_produto)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbGerencia ADD CONSTRAINT FK_tbGerencia_1
+    FOREIGN KEY (fk_Estoque_PK_id_produto)
+    REFERENCES tbEstoque (PK_id_produto)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbGerencia ADD CONSTRAINT FK_tbGerencia_2
+    FOREIGN KEY (fk_Funcionario_Pk_id_funcionario)
+    REFERENCES tbFuncionario (Pk_CPF)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbContrata ADD CONSTRAINT FK_tbContrata_1
+    FOREIGN KEY (fk_Fornecedor__Pk_id_fornecedor)
+    REFERENCES tbFornecedor (_Pk_id_fornecedor)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbContrata ADD CONSTRAINT FK_tbContrata_2
+    FOREIGN KEY (fk_Gerente_de_Unidade_Pk_id_gerente)
+    REFERENCES tbGerente_de_Unidade (Pk_id_gerente)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbCoordena ADD CONSTRAINT FK_tbCoordena_1
+    FOREIGN KEY (fk_Gerente_de_Unidade_Pk_id_gerente)
+    REFERENCES tbGerente_de_Unidade (Pk_id_gerente)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbCoordena ADD CONSTRAINT FK_tbCoordena_2
+    FOREIGN KEY (fk_Funcionario_Pk_id_funcionario)
+    REFERENCES tbFuncionario (Pk_CPF)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbSupervisiona ADD CONSTRAINT FK_tbSupervisiona_1
+    FOREIGN KEY (fk_Estoque_PK_id_produto)
+    REFERENCES tbEstoque (PK_id_produto)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE tbSupervisiona ADD CONSTRAINT FK_tbSupervisiona_2
+    FOREIGN KEY (fk_Gerente_de_Unidade_Pk_id_gerente)
+    REFERENCES tbGerente_de_Unidade (Pk_id_gerente)
+    ON DELETE RESTRICT;
+    
+use bdverdemais;
+
+show tables;
+describe tbfornece ;
